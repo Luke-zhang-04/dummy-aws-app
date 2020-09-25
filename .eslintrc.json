@@ -320,7 +320,7 @@
                 },
                 "ecmaVersion": 2020,
                 "sourceType": "module",
-                "project": ["./client/tsconfig.json"]
+                "project": ["./client/tsconfig.json", "./server/tsconfig.json"]
             },
             "rules": {
                 "@typescript-eslint/array-type": "error",
