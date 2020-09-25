@@ -117,6 +117,7 @@ typings/
 /build
 /lib
 */lib
+server/app
 
 # misc
 .DS_Store

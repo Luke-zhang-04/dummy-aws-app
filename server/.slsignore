@@ -1,0 +1,6 @@
+*.lock
+*.json
+*.yml
+src/
+src/*.ts
+src/*

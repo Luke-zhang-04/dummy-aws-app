@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "./lint.sh",
-    "lint:fix": "./lint.sh --fix"
+    "lint:fix": "./lint.sh --fix",
+    "tsc": "npx tsc -p server/tsconfig.json"
   },
   "keywords": [],
   "author": "",
