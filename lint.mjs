@@ -2,6 +2,7 @@
 
 import chokidar from "chokidar"
 import {exec} from "child_process"
+import niceTry from "nice-try"
 
 const paths = {
         eslint: (flags, dir) => (
@@ -14,19 +15,18 @@ const paths = {
 
 
     runLint = (path) => new Promise((resolve, reject) => {
-        exec(path, (error, stdout, stderr) => {
-            if (stderr) {
-                console.error(stderr)
-                reject(stderr)
-            }
+        try {
+            exec(path, (_, stdout, stderr) => {
+                if (stderr) {
+                    console.error(stderr)
+                    reject(stderr)
+                }
 
-            if (error) {
-                console.error(error)
-                reject(error)
-            }
-
-            resolve(stdout)
-        })
+                resolve(stdout)
+            })
+        } catch {
+            console.log("An error occured. The linter likely found a problem")
+        }
     }),
 
     lint = (dir = "*") => {
@@ -34,8 +34,8 @@ const paths = {
             process.argv.includes("--watch")
                 ? "--fix"
                 : "",
-            eslint = runLint(paths.eslint(flags, dir)),
-            stylelint = runLint(paths.stylelint(flags, dir))
+            eslint = niceTry(() => runLint(paths.eslint(flags, dir))),
+            stylelint = niceTry(() => runLint(paths.stylelint(flags, dir)))
 
         return Promise.all([eslint, stylelint])
     }
@@ -44,13 +44,21 @@ lint()
 
 if (process.argv.includes("--watch")) {
     chokidar.watch("./client").on("change", async () => {
-        await lint("client")
+        try {
+            await lint("client")
+        } catch {
+            console.log("An error occured. The linter likely found a problem")
+        }
 
         console.log("Complete!")
     })
 
     chokidar.watch("./server").on("change", async () => {
-        await lint("server")
+        try {
+            await lint("server")
+        } catch {
+            console.log("An error occured. The linter likely found a problem")
+        }
 
         console.log("Complete!")
     })

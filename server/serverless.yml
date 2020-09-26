@@ -1,22 +1,19 @@
-service: aws-dummy-app
+service:
+  name: aws-dummy-app
+
+plugins:
+  - serverless-ignore
+
 provider:
   name: aws
   runtime: nodejs12.x
-  stage: dev
-  region: us-east-1
-  memorySize: 128
-plugins:
-  - serverless-ignore
+  stage: prod
+
 functions:
-  app:
-    handler: lib/index.js
+  mainFunction:
+    handler: lib/index.handler
     events:
       - http:
+          private: false
           path: /
-          method: ANY
-          cors: true
-
-      - http:
-          path: /{proxy+}
-          method: ANY
-          cors: true
+          method: get

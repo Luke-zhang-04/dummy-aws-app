@@ -115,6 +115,7 @@ typings/
 
 # production
 /build
+.build
 /lib
 */lib
 server/app

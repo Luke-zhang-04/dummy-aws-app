@@ -8,4 +8,4 @@
 */src/serviceWorker.ts
 client/config
 client/scripts
-*.js
+server/lib
