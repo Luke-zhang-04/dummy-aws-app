@@ -10,7 +10,7 @@ provider:
   stage: prod
 
 functions:
-  mainFunction:
+  main:
     handler: lib/index.handler
     events:
       - http:

@@ -6,3 +6,5 @@ const app = express()
 app.get("/", (_, res) => res.send("Hello world!"))
 
 export const handler = serverless(app)
+
+export default app

@@ -17,6 +17,7 @@
     "deploy": "yarn tsc && npx serverless deploy --aws-profile edu # Use AWS Educate profile",
     "lint": "cd .. && yarn lint && cd server",
     "lint:fix": "cd .. && yarn lint:fix && cd server",
-    "tsc": "npx tsc -p ."
+    "tsc": "npx tsc -p .",
+    "start": "./start # Make sure to chmod +x this or it will fail"
   }
 }
