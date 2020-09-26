@@ -1,0 +1,7 @@
+#!/bin/node
+
+const app = require("./lib").default
+
+const port = 3000
+
+app.listen(port, () => console.log(`App listening on ${port}!`))
