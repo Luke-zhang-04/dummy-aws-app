@@ -114,7 +114,7 @@ typings/
 /coverage
 
 # production
-/build
+*/build
 .build
 /lib
 */lib

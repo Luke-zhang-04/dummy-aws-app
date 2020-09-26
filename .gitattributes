@@ -1,2 +1,4 @@
 # Enforce Unix newlines
 * text=auto eol=lf
+
+./client/build linguist-generated=true
