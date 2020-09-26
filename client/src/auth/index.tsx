@@ -10,4 +10,4 @@ export const Auth = (): JSX.Element => {
         : <Reg stateToggle={setAuth}/>
 }
 
-export default Auth
+export default React.memo(Auth)

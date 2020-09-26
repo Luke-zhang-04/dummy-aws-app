@@ -1,12 +1,26 @@
-import * as AwsCognito from "amazon-cognito-identity-js"
+import AwsCognito from "amazon-cognito-identity-js"
 
 /* eslint-disable @typescript-eslint/naming-convention */
 
+interface AwsErrorObject {
+    [key: string]: string,
+    code: string,
+    name: string,
+    message: string,
+}
+
 const poolData = {
         UserPoolId: "us-east-1_D5RIlJnLy",
-        ClientId: "6jmd48v6vv36mfoj9vn65t6c3f",
+        ClientId: "2vs2bdrhkq2ioumujm56auhje9",
     },
     userPool = new AwsCognito.CognitoUserPool(poolData)
+
+
+export const isAwsErrorObject = (
+    obj: {[key: string]: string}
+): obj is AwsErrorObject => (
+    "code" in obj && "name" in obj && "message" in obj
+)
 
 /**
  * Register a user. Promise based 😀
@@ -72,4 +86,5 @@ export const login = (
 export default {
     register,
     login,
+    isAwsErrorObject,
 }

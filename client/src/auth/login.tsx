@@ -1,7 +1,7 @@
 import "./style.scss"
 import {Button, FormControl, Grid, TextField} from "@material-ui/core"
+import {isAwsErrorObject, login} from "../auth-utils"
 import React from "react"
-import {login} from "../auth-utils"
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */
 
@@ -33,10 +33,13 @@ export default class Login extends React.Component<Login.Props, Login.State> {
         try {
             await login(this.state.username, this.state.password)
         } catch (err) {
-            alert(err.message ? err.message : err)
+            alert(isAwsErrorObject(err) ? err.message : err)
+            console.log(err)
+
+            return
         }
 
-        console.log(this.state)
+        alert("Success!")
     }
 
     private _form = (): JSX.Element => <form onSubmit={this._login}>
