@@ -301,7 +301,7 @@
         "template-curly-spacing": "error",
         "template-tag-spacing": "error",
         "unicode-bom": "error",
-        "valid-jsdoc": "error",
+        "valid-jsdoc": "off",
         "vars-on-top": "error",
         "wrap-iife": "error",
         "wrap-regex": "error",

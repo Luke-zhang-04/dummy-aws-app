@@ -1,8 +1,10 @@
 import * as AwsCognito from "amazon-cognito-identity-js"
 
+/* eslint-disable @typescript-eslint/naming-convention */
+
 const poolData = {
-        UserPoolId: "us-east-1_6ovwzlvIj",
-        ClientId: "kp3st63fo709fr67sioh0edie",
+        UserPoolId: "us-east-1_D5RIlJnLy",
+        ClientId: "6jmd48v6vv36mfoj9vn65t6c3f",
     },
     userPool = new AwsCognito.CognitoUserPool(poolData)
 
@@ -43,26 +45,29 @@ export const register = (
 export const login = (
     username: string,
     password: string
-): void => {
-    const authDetails = new AwsCognito.AuthenticationDetails({
-            Username: username,
-            Password: password,
-        }),
-        userData = {
-            Username: username,
-            Pool: userPool
-        },
-        cognitoUser = new AwsCognito.CognitoUser(userData)
+): Promise<AwsCognito.CognitoUserSession | Error> => (
+    new Promise((resolve, reject) => {
+        const authDetails = new AwsCognito.AuthenticationDetails({
+                Username: username,
+                Password: password,
+            }),
+            userData = {
+                Username: username,
+                Pool: userPool
+            },
+            cognitoUser = new AwsCognito.CognitoUser(userData)
 
-    cognitoUser.authenticateUser(authDetails, {
-        onSuccess: (result) => {
-            console.log(result)
-        },
-        onFailure: (err) => {
-            console.log(err)
-        },
-    })
-}
+        cognitoUser.authenticateUser(authDetails, {
+            onSuccess: (result) => {
+                console.log(result)
+                resolve(result)
+            },
+            onFailure: (err) => {
+                console.log(err)
+                reject(err)
+            },
+        })
+    }))
 
 export default {
     register,

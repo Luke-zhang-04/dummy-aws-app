@@ -21,9 +21,13 @@ class App extends React.Component<App.Props, App.State> {
         }
     }
 
-    public render = (): JSX.Element => this.state.isAuthenticated
-        ? <div>Logged In</div>
-        : <Auth/>
+    public render = (): JSX.Element => {
+        if (this.state.isAuthenticated) {
+            return <div>AUTHENTICATED</div>
+        }
+
+        return <Auth/>
+    }
 
 }
 

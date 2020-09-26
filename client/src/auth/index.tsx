@@ -1,11 +1,13 @@
+import Login from "./login"
 import React from "react"
+import Reg from "./reg"
 
 export const Auth = (): JSX.Element => {
-    const [authState, setAuth] = React.useState("auth")
+    const [authState, setAuth] = React.useState("login")
 
     return authState === "login"
-        ? <div onClick={() => setAuth("reg")}>LOGIN</div>
-        : <div onClick={() => setAuth("login")}>REGISTER</div>
+        ? <Login stateToggle={setAuth}/>
+        : <Reg stateToggle={setAuth}/>
 }
 
 export default Auth

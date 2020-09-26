@@ -6,6 +6,5 @@
 **/functions/lib/*
 **/*.d.ts
 */src/serviceWorker.ts
-client/config
-client/scripts
+*/build
 server/lib

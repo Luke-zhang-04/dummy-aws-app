@@ -1,0 +1,30 @@
+.link {
+  cursor: pointer;
+  color: #06c;
+  text-decoration: underline;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+
+  &:hover {
+    text-decoration: none;
+    color: #366;
+  }
+}
+
+form {
+  width: 50vw;
+}
+
+@media only screen and (max-width: 500px) {
+  form {
+    width: 100vw;
+  }
+}
+
+.btn {
+  width: max-content !important;
+  // display: block !important;
+  // margin-left: auto !important;
+  // margin-right: auto !important;
+  justify-self: center;
+  display: grid;
+}
