@@ -1,9 +1,35 @@
 import * as serviceWorker from "./serviceWorker"
+import Auth from "./auth"
 import React from "react"
 import ReactDOM from "react-dom"
 
+declare namespace App {
+    export interface Props {}
+
+    export interface State {
+        isAuthenticated: boolean,
+    }
+}
+
+class App extends React.Component<App.Props, App.State> {
+
+    public constructor (props: App.Props) {
+        super(props)
+
+        this.state = {
+            isAuthenticated: false,
+        }
+    }
+
+    public render = (): JSX.Element => this.state.isAuthenticated
+        ? <div>Logged In</div>
+        : <Auth/>
+
+}
+
 ReactDOM.render(
     <React.StrictMode>
+        <App/>
     </React.StrictMode>,
     document.getElementById("root")
 )
