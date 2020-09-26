@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "./lint.sh",
-    "lint:fix": "./lint.sh --fix",
+    "lint:fix": "./lint.mjs --fix",
+    "lint:watch": "./lint.mjs --watch",
     "tsc": "npx tsc -p server/tsconfig.json"
   },
   "keywords": [],
@@ -14,10 +15,12 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^3.0.0",
     "@typescript-eslint/parser": "^3.0.0",
+    "chokidar": "^3.4.2",
     "eslint": "^7.9.0",
     "eslint-plugin-jsx-a11y": "^6.2.0",
     "eslint-plugin-prefer-arrow": "^1.2.1",
     "eslint-plugin-react": "^7.21.2",
+    "eslint_d": "^9.1.2",
     "stylelint": "^13.7.1",
     "stylelint-config-standard": "^20.0.0",
     "typescript": "^4.0.3"
