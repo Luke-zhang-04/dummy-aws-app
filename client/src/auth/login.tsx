@@ -57,8 +57,8 @@ export default class Login extends React.Component<Login.Props, Login.State> {
                     <TextField
                         fullWidth
                         style={{marginTop: "1rem"}}
-                        label="Username"
-                        type="text"
+                        label="Email"
+                        type="email"
                         onChange = {(event): void => (
                             this.setState({username: event.target.value})
                         )}
