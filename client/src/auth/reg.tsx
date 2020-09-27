@@ -57,7 +57,7 @@ export default class Reg extends React.Component<Reg.Props, Reg.State> {
             return
         }
 
-        alert("Success!")
+        alert("Success! Please confirm your email and log in again.")
         setUser(userPool.getCurrentUser() ?? undefined)
     }
 

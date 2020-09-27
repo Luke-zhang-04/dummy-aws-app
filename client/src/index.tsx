@@ -48,7 +48,7 @@ class App extends React.Component<App.Props, App.State> {
             currentUser: user,
         })
 
-        console.log("UPDATED USER")
+        console.log("UPDATED USER", !(user === undefined || user === null), user)
     }
 
     public render = (): JSX.Element => (

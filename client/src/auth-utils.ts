@@ -10,8 +10,8 @@ interface AwsErrorObject {
 }
 
 const poolData = {
-    UserPoolId: "us-east-1_D5RIlJnLy",
-    ClientId: "2vs2bdrhkq2ioumujm56auhje9",
+    UserPoolId: "us-east-1_1rtUfaJiH",
+    ClientId: "18uiomdsncq2pmsqfjossp8t33",
 }
 
 export const userPool = new AwsCognito.CognitoUserPool(poolData)
@@ -68,7 +68,7 @@ export const login = (
             }),
             userData = {
                 Username: username,
-                Pool: userPool
+                Pool: userPool,
             },
             cognitoUser = new AwsCognito.CognitoUser(userData)
 
