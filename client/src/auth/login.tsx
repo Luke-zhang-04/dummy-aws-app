@@ -1,7 +1,9 @@
 import "./style.scss"
 import {Button, FormControl, Grid, TextField} from "@material-ui/core"
-import {isAwsErrorObject, login} from "../auth-utils"
+import {isAwsErrorObject, login, userPool} from "../auth-utils"
+import type {CognitoUser} from "amazon-cognito-identity-js"
 import React from "react"
+import {UserContext} from "../"
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */
 
@@ -14,6 +16,8 @@ declare namespace Login {
         username: string,
         password: string,
     }
+
+    export type UserSetter = (usr?: CognitoUser)=> void
 }
 
 export default class Login extends React.Component<Login.Props, Login.State> {
@@ -27,7 +31,10 @@ export default class Login extends React.Component<Login.Props, Login.State> {
         }
     }
 
-    private _login = async (event: React.FormEvent): Promise<void> => {
+    private _register = async (
+        event: React.FormEvent,
+        setUser: Login.UserSetter,
+    ): Promise<void> => {
         event.preventDefault()
 
         try {
@@ -40,38 +47,43 @@ export default class Login extends React.Component<Login.Props, Login.State> {
         }
 
         alert("Success!")
+        setUser(userPool.getCurrentUser() ?? undefined)
     }
 
-    private _form = (): JSX.Element => <form onSubmit={this._login}>
-        <FormControl fullWidth>
-            <TextField
-                fullWidth
-                style={{marginTop: "1rem"}}
-                label="Username"
-                type="text"
-                onChange = {(event): void => (
-                    this.setState({username: event.target.value})
-                )}
-            />
-            <TextField
-                fullWidth
-                style={{marginTop: "1rem"}}
-                label="Password"
-                type="password"
-                onChange = {(event): void => (
-                    this.setState({password: event.target.value})
-                )}
-            />
-            <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                style={{marginTop: "1rem"}}
-                className="btn"
-            >Sign In</Button>
-        </FormControl>
-    </form>
+    private _form = (): JSX.Element => <UserContext.Consumer>
+        {({setUser}): JSX.Element => (
+            <form onSubmit={(event): Promise<void> => this._register(event, setUser)}>
+                <FormControl fullWidth>
+                    <TextField
+                        fullWidth
+                        style={{marginTop: "1rem"}}
+                        label="Username"
+                        type="text"
+                        onChange = {(event): void => (
+                            this.setState({username: event.target.value})
+                        )}
+                    />
+                    <TextField
+                        fullWidth
+                        style={{marginTop: "1rem"}}
+                        label="Password"
+                        type="password"
+                        onChange = {(event): void => (
+                            this.setState({password: event.target.value})
+                        )}
+                    />
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        style={{marginTop: "1rem"}}
+                        className="btn"
+                    >Sign In</Button>
+                </FormControl>
+            </form>
+        )}
+    </UserContext.Consumer>
 
     public render = (): JSX.Element => <Grid
         container

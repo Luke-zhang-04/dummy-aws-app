@@ -1,15 +1,28 @@
 import * as serviceWorker from "./serviceWorker"
 import Auth from "./auth"
+import type {CognitoUser} from "amazon-cognito-identity-js"
 import React from "react"
 import ReactDOM from "react-dom"
+import {userPool} from "./auth-utils"
 
 declare namespace App {
     export interface Props {}
 
     export interface State {
         isAuthenticated: boolean,
+        currentUser?: CognitoUser,
+    }
+
+    export interface Context {
+        currentUser: undefined | CognitoUser,
+        setUser: (user: Context["currentUser"])=> void,
     }
 }
+
+export const UserContext = React.createContext<App.Context>({
+    currentUser: undefined,
+    setUser: () => undefined,
+})
 
 class App extends React.Component<App.Props, App.State> {
 
@@ -18,16 +31,37 @@ class App extends React.Component<App.Props, App.State> {
 
         this.state = {
             isAuthenticated: false,
+            currentUser: undefined,
         }
     }
 
-    public render = (): JSX.Element => {
-        if (this.state.isAuthenticated) {
-            return <div>AUTHENTICATED</div>
-        }
-
-        return <Auth/>
+    public componentDidMount = (): void => {
+        this.setUser(userPool.getCurrentUser() ?? undefined)
     }
+
+    public setUser = (user?: CognitoUser): void => {
+        this.setState({
+            isAuthenticated: !(user === undefined || user === null),
+            currentUser: user,
+        })
+
+        console.log("UPDATED USER")
+    }
+
+    public render = (): JSX.Element => (
+        <UserContext.Provider
+            value={{
+                currentUser: this.state.currentUser,
+                setUser: this.setUser,
+            }}
+        >
+            {
+                this.state.isAuthenticated
+                    ? <div>IS AUTHENTICATED</div>
+                    : <Auth/>
+            }
+        </UserContext.Provider>
+    )
 
 }
 

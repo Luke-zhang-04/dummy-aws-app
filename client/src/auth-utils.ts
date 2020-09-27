@@ -1,4 +1,4 @@
-import AwsCognito from "amazon-cognito-identity-js"
+import * as AwsCognito from "amazon-cognito-identity-js"
 
 /* eslint-disable @typescript-eslint/naming-convention */
 
@@ -10,10 +10,11 @@ interface AwsErrorObject {
 }
 
 const poolData = {
-        UserPoolId: "us-east-1_D5RIlJnLy",
-        ClientId: "2vs2bdrhkq2ioumujm56auhje9",
-    },
-    userPool = new AwsCognito.CognitoUserPool(poolData)
+    UserPoolId: "us-east-1_D5RIlJnLy",
+    ClientId: "2vs2bdrhkq2ioumujm56auhje9",
+}
+
+export const userPool = new AwsCognito.CognitoUserPool(poolData)
 
 
 export const isAwsErrorObject = (
@@ -87,4 +88,5 @@ export default {
     register,
     login,
     isAwsErrorObject,
+    userPool,
 }
