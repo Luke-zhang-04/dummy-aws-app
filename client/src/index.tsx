@@ -1,4 +1,5 @@
 import * as serviceWorker from "./serviceWorker"
+import Application from "./app"
 import Auth from "./auth"
 import type {CognitoUser} from "amazon-cognito-identity-js"
 import React from "react"
@@ -57,7 +58,7 @@ class App extends React.Component<App.Props, App.State> {
         >
             {
                 this.state.isAuthenticated
-                    ? <div>IS AUTHENTICATED</div>
+                    ? <Application/>
                     : <Auth/>
             }
         </UserContext.Provider>
