@@ -10,8 +10,8 @@ interface AwsErrorObject {
 }
 
 const poolData = {
-    UserPoolId: "us-east-1_FaLodQfjYH",
-    ClientId: "338oitrnvvsurdhp6tu9nt01ap",
+    UserPoolId: "us-east-1_ky9f3iskn",
+    ClientId: "6h8sl58piaffj4dg3pajhaacil",
 }
 
 export const userPool = new AwsCognito.CognitoUserPool(poolData)
@@ -37,17 +37,17 @@ export const register = (
 ): Promise<AwsCognito.CognitoUser> => {
     const attributeList = [
         new AwsCognito.CognitoUserAttribute({
-            Name: "name",
+            Name: "preferred_username",
             Value: username,
         }),
         new AwsCognito.CognitoUserAttribute({
             Name: "email",
             Value: email,
-        }),
+        })
     ]
 
     return new Promise((resolve, reject) => {
-        userPool.signUp(username, password, attributeList, [], (err, result) => {
+        userPool.signUp(email, password, attributeList, [], (err, result) => {
             if (err) {
                 reject(err)
             }
