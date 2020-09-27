@@ -41,6 +41,8 @@ class App extends React.Component<App.Props, App.State> {
     }
 
     public setUser = (user?: CognitoUser): void => {
+        this.state.currentUser?.signOut()
+
         this.setState({
             isAuthenticated: !(user === undefined || user === null),
             currentUser: user,
