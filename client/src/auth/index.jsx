@@ -2,7 +2,7 @@ import Login from "./login"
 import React from "react"
 import Reg from "./reg"
 
-export const Auth = (): JSX.Element => {
+export const Auth = () => {
     const [authState, setAuth] = React.useState("login")
 
     return authState === "login"

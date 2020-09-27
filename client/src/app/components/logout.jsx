@@ -1,11 +1,11 @@
 import Button from "@material-ui/core/Button"
 import React from "react"
-import {UserContext} from "../../"
+import {UserContext} from "../.."
 
-const logoutButton = (): JSX.Element => <UserContext.Consumer>
-    {({setUser}): JSX.Element => (
+const logoutButton = () => <UserContext.Consumer>
+    {({setUser}) => (
         <Button
-            onClick={(): void => setUser(undefined)}
+            onClick={() => setUser(undefined)}
             variant="contained"
             color="primary"
         >Logout</Button>
