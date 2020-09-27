@@ -8,6 +8,7 @@ import {UserContext} from "../"
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */
 
 declare namespace Login {
+
     export interface Props {
         stateToggle: React.Dispatch<React.SetStateAction<string>>,
     }
@@ -18,6 +19,7 @@ declare namespace Login {
     }
 
     export type UserSetter = (usr?: CognitoUser)=> void
+    
 }
 
 export default class Login extends React.Component<Login.Props, Login.State> {
