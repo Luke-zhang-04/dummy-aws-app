@@ -2,3 +2,6 @@
 * text=auto eol=lf
 
 ./client/build linguist-generated=true
+
+*.jsx linguist-language=JS
+*.tsx linguist-language=TS
