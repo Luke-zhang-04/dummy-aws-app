@@ -5,11 +5,20 @@ import serverless from "serverless-http"
 const app = express()
 
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: [
+        process.argv.includes("--dev")
+            ? "http://localhost:3000"
+            : "https://luke-zhang-04.github.io/"
+    ],
     optionsSuccessStatus: 200,
 }))
 
-app.get("/", (_, res) => res.send({msg: "Hello world!"}))
+app.get("/", (_, response) => response.send({
+    app: "Todo app",
+    desc: "A simple app for getting used to aws",
+    license: "0BSD",
+    author: "Luke Zhang"
+}))
 
 export const handler = serverless(app)
 
