@@ -3,6 +3,6 @@
 const app = require("./lib").default
 
 /* eslint-disable one-var */
-const port = 333
+const port = 3333
 
 app.listen(port, () => console.log(`App listening on ${port}!`))
