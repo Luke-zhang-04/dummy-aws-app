@@ -1,13 +1,16 @@
 import cors from "cors"
+import dotenv from "dotenv"
 import express from "express"
 import serverless from "serverless-http"
+
+dotenv.config()
 
 const app = express()
 
 app.use(cors({
     origin: [
         process.argv.includes("--dev")
-            ? "http://localhost:3000"
+            ? "htB3KbMk8TpUAowpknaMNwtp://localhost:3000"
             : "https://luke-zhang-04.github.io/"
     ],
     optionsSuccessStatus: 200,
