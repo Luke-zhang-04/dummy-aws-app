@@ -11,7 +11,7 @@ app.use(cors({
     origin: [
         process.argv.includes("--dev")
             ? "htB3KbMk8TpUAowpknaMNwtp://localhost:3000"
-            : "https://luke-zhang-04.github.io/"
+            : "https://luke-zhang-04.github.io/",
     ],
     optionsSuccessStatus: 200,
 }))
@@ -20,7 +20,7 @@ app.get("/", (_, response) => response.send({
     app: "Todo app",
     desc: "A simple app for getting used to aws",
     license: "0BSD",
-    author: "Luke Zhang"
+    author: "Luke Zhang",
 }))
 
 export const handler = serverless(app)

@@ -18,7 +18,7 @@ export const userPool = new AwsCognito.CognitoUserPool(poolData)
 
 
 export const isAwsErrorObject = (
-    obj: {[key: string]: string}
+    obj: {[key: string]: string},
 ): obj is AwsErrorObject => (
     "code" in obj && "name" in obj && "message" in obj
 )
@@ -43,7 +43,7 @@ export const register = (
         new AwsCognito.CognitoUserAttribute({
             Name: "email",
             Value: email,
-        })
+        }),
     ]
 
     return new Promise((resolve, reject) => {
@@ -59,7 +59,7 @@ export const register = (
 
 export const login = (
     username: string,
-    password: string
+    password: string,
 ): Promise<AwsCognito.CognitoUserSession | Error> => (
     new Promise((resolve, reject) => {
         const authDetails = new AwsCognito.AuthenticationDetails({
