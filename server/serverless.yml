@@ -13,5 +13,8 @@ functions:
   main:
     handler: lib/index.handler
     events:
-      - http: ANY /
-      - http: 'ANY {proxy+}'
+      - http:
+          private: false
+          path: /
+          method: get
+          cors: true'
