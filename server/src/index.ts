@@ -1,4 +1,3 @@
-import cors from "cors"
 import dotenv from "dotenv"
 import express from "express"
 import serverless from "serverless-http"
@@ -7,14 +6,15 @@ dotenv.config()
 
 const app = express()
 
-app.use(cors({
-    origin: [
-        process.argv.includes("--dev")
-            ? "http://localhost:3000"
-            : "https://luke-zhang-04.github.io/",
-    ],
-    optionsSuccessStatus: 200,
-}))
+app.use((_, res, next) => {
+    process.argv.includes("--dev")
+        ? res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000")
+        : res.setHeader("Access-Control-Allow-Origin", "https://luke-zhang-04.github.io/")
+
+    res.setHeader("Access-Control-Allow-Credentials", 1)
+
+    next()
+})
 
 app.get("/", (_, response) => response.send({
     app: "Todo app",
