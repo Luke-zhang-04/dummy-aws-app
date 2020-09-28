@@ -1,8 +1,16 @@
 #!/bin/node
 
-const app = require("./lib").default
+const app = require("./lib").default,
+    dotenv = require("dotenv")
+
+dotenv.config()
 
 /* eslint-disable one-var */
-const port = 3333
+const defaultPort = 3333,
+    port = process.env.PORT === "default" || !process.env.PORT
+        ? defaultPort
+        : Number(process.env.PORT)
 
-app.listen(port, () => console.log(`App listening on ${port}!`))
+app.listen(port, () => (
+    console.log(`App listening on ${port}!`)
+))
