@@ -5,3 +5,6 @@
 
 *.jsx linguist-language=JS
 *.tsx linguist-language=TS
+
+*.sql linguist-detectable=true
+*.sql linguist-language=sql
