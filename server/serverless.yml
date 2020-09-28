@@ -17,3 +17,4 @@ functions:
           private: false
           path: /
           method: get
+          cors: true
