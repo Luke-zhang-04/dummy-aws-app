@@ -7,6 +7,7 @@
     "lint": "./lint.sh",
     "lint:fix": "./lint.mjs --fix",
     "lint:watch": "./lint.mjs --watch",
+    "lint:restart": "npx eslint_d restart",
     "tsc": "npx tsc -p server/tsconfig.json"
   },
   "keywords": [],
