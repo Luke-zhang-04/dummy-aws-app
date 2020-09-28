@@ -6,4 +6,4 @@ src/*.ts
 src/*
 .env.example
 start
-database/
+database/*
