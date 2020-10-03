@@ -1,10 +1,10 @@
 import * as serviceWorker from "./serviceWorker"
+import {CognitoUser, isCognitoUser} from "./cognito-utils"
 import Application from "./app"
 import Auth from "./auth"
-import type {CognitoUser} from "amazon-cognito-identity-js"
 import React from "react"
 import ReactDOM from "react-dom"
-import {userPool} from "./auth-utils"
+import {url} from "./globals"
 
 declare namespace App {
     export interface Props {}
@@ -36,19 +36,61 @@ class App extends React.Component<App.Props, App.State> {
         }
     }
 
-    public componentDidMount = (): void => {
-        this.setUser(userPool.getCurrentUser() ?? undefined)
+    public componentDidMount = async (): Promise<void> => {
+        if (localStorage.getItem("loggedin") === "true") {
+            const user = await (await fetch(
+                `${url}/auth/tokens`,
+                {
+                    method: "GET",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                },
+            )).json() as {[key: string]: unknown}
+
+            if (isCognitoUser(user)) {
+                this.setUser(user)
+
+                return
+            }
+
+            this.setUser(undefined)
+
+            return
+        }
+
+        this.setUser(undefined)
     }
 
-    public setUser = (user?: CognitoUser): void => {
-        this.state.currentUser?.signOut()
+    public setUser = async (user?: CognitoUser): Promise<void> => {
+        console.log(user)
+        if (user === undefined || user === null) {
+            console.log("fetching")
+            await fetch(
+                `${url}/auth/logout`,
+                {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                },
+            )
+
+            console.log(localStorage, user, "BEFORE")
+
+            localStorage.setItem("loggedin", "false")
+
+            console.log(localStorage, user, "AFTER")
+        } else {
+            localStorage.setItem("loggedin", "true")
+        }
 
         this.setState({
             isAuthenticated: !(user === undefined || user === null),
             currentUser: user,
         })
-
-        console.log("UPDATED USER", !(user === undefined || user === null), user)
     }
 
     public render = (): JSX.Element => (

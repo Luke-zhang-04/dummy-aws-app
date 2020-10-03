@@ -1,11 +1,12 @@
 import "./style.scss"
 import {Button, FormControl, Grid, TextField} from "@material-ui/core"
-import {isAwsErrorObject, register, userPool} from "../auth-utils"
-import type {CognitoUser} from "amazon-cognito-identity-js"
+import {CognitoUser, isAwsErrorObject, isCognitoUser} from "../cognito-utils"
 import React from "react"
 import {UserContext} from "../"
+import {url} from "../globals"
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */
+
 
 declare namespace Reg {
 
@@ -21,7 +22,7 @@ declare namespace Reg {
     }
 
     export type UserSetter = (usr?: CognitoUser)=> void
-    
+
 }
 
 export default class Reg extends React.Component<Reg.Props, Reg.State> {
@@ -47,20 +48,34 @@ export default class Reg extends React.Component<Reg.Props, Reg.State> {
             if (this.state.password !== this.state.password2) {
                 throw new Error("Passwords don't match")
             }
-            await register(
-                this.state.username,
-                this.state.email,
-                this.state.password,
-            )
-        } catch (err) {
-            alert(isAwsErrorObject(err) ? err.message : err)
+
+            const user = await(await fetch(
+                `${url}/auth/register`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        username: this.state.username,
+                        email: this.state.email,
+                        password: this.state.password,
+                    }),
+                },
+            )).json() as {[key: string]: unknown}
+
+            if (isCognitoUser(user)) {
+                alert("Success! Please confirm your email and log in again.")
+                setUser(user)
+
+                return
+            }
+
+            throw user
+        } catch (err: unknown) {
+            alert(isAwsErrorObject(err) || err instanceof Error ? err.message : err)
             console.log(err)
-
-            return
         }
-
-        alert("Success! Please confirm your email and log in again.")
-        setUser(userPool.getCurrentUser() ?? undefined)
     }
 
     private _formContents = (): JSX.Element => <>
