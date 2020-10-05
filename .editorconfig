@@ -20,3 +20,7 @@ indent_size = 4
 [{*package.json,tsconfig.json}]
 indent_style = space
 indent_size = 2
+
+[*.go]
+indent_size = tab # Go fmt uses tabs so...
+indent_size = 4
