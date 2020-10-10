@@ -1,0 +1,9 @@
+#!/bin/bash
+
+go build main.go
+
+zip function.zip main -v
+
+aws lambda update-function-code \
+    --function-name todo-post-confirm \
+    --zip-file fileb://function.zip

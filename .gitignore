@@ -127,3 +127,5 @@ server/app
 .env.test.local
 .env.production.local
 .vscode
+
+hooks/post-signup/main
