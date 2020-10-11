@@ -8,3 +8,6 @@
 
 *.sql linguist-detectable=true
 *.sql linguist-language=sql
+
+go.sum linguist-language=go
+go.mod linguist-language=go
