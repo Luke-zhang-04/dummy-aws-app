@@ -14,7 +14,8 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func handler(event events.CognitoEventUserPoolsPostConfirmation) (events.CognitoEventUserPoolsPostConfirmation, error) {
+// Handler is the function handle shich handles the addition of a user to the db
+func Handler(event events.CognitoEventUserPoolsPostConfirmation) (events.CognitoEventUserPoolsPostConfirmation, error) {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
@@ -46,5 +47,5 @@ func handler(event events.CognitoEventUserPoolsPostConfirmation) (events.Cognito
 }
 
 func main() {
-	lambda.Start(handler)
+	lambda.Start(Handler)
 }
