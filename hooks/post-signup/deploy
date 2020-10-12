@@ -1,38 +1,6 @@
 #!/bin/bash
 
-echo "Entering sudo mode"
-
-if [[ ! "$(sudo docker info)" ]]; then
-    echo -e "ERROR: Cannot connect to the Docker daemon at unix:///var/run/docker.sock.\n Run sudo dockerd to start the Docker daemon."
-    exit 1
-fi
-
-echo "Running docker build"
-dockerBuild="$(sudo docker build -t dummy-aws-app .)"
-
-if [[ ! "$dockerBuild" ]]; then
-    echo -e "An error occured\n $1"
-
-    exit 1
-fi
-
-buildId="$(echo "$dockerBuild" | grep -E 'Successfully built' | awk '{print $3}')"
-
-echo "Running docker run"
-sudo docker run "$buildId" &
-
-# Wait for docker container to run
-sleep 1
-
-containerId="$(sudo docker ps | grep -vE 'IMAGE' | awk '{print $1}')"
-
-echo "Running docker cp from $containerId:/build to ."
-sudo docker cp "$containerId":/build .
-
-echo "Killing container $containerId"
-sudo docker kill "$containerId"
-
-wait
+./dockerBuild
 
 sudo cp ./build/main ./main
 

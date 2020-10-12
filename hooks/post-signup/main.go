@@ -18,7 +18,7 @@ import (
 func Handler(event events.CognitoEventUserPoolsPostConfirmation) (events.CognitoEventUserPoolsPostConfirmation, error) {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		fmt.Println("Failed to load dotenv. Since this could be intentional, skipping")
 	}
 
 	dbDetails := fmt.Sprintf(

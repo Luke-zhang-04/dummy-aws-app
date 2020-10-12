@@ -1,0 +1,35 @@
+#!/bin/bash
+
+echo "Entering sudo mode"
+
+if [[ ! "$(sudo docker info)" ]]; then
+    echo -e "ERROR: Cannot connect to the Docker daemon at unix:///var/run/docker.sock.\n Run sudo dockerd to start the Docker daemon."
+    exit 1
+fi
+
+echo "Running docker build"
+dockerBuild="$(sudo docker build -t dummy-aws-app .)"
+
+if [[ ! "$dockerBuild" ]]; then
+    echo -e "An error occured\n $1"
+
+    exit 1
+fi
+
+buildId="$(echo "$dockerBuild" | grep -E 'Successfully built' | awk '{print $3}')"
+
+now="$(date +%s)"
+
+echo "Running docker run with name POSTCONFIRM$now"
+sudo docker run --name "POSTCONFRIM$now" "$buildId" &
+
+# Wait for docker container to run
+sleep 1
+
+echo "Running docker cp from POSTCONFRIM$now:/build to ."
+sudo docker cp "POSTCONFRIM$now":/build .
+
+echo "Killing container POSTCONFRIM$now"
+sudo docker kill "POSTCONFRIM$now"
+
+wait
