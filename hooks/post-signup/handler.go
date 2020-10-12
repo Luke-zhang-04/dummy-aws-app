@@ -12,6 +12,8 @@ import (
 
 // AddDbEntry adds a specific user to the database
 func AddDbEntry(sub string) error {
+	fmt.Println("Connecting to Database")
+
 	dbDetails := fmt.Sprintf(
 		"masterUser:%s@tcp(todo-app.ccqkohsmp9lk.us-east-1.rds.amazonaws.com:3306)/todo-schema",
 		os.Getenv("DB_PASSWORD"),
@@ -19,10 +21,13 @@ func AddDbEntry(sub string) error {
 
 	db, err := sql.Open("mysql", dbDetails)
 	if err != nil {
+		fmt.Println(fmt.Sprintf("An error occured: %s", err.Error()))
 		return err
 	}
 
 	db.SetConnMaxLifetime(time.Minute)
+
+	fmt.Println(fmt.Sprintf("Inserting data with %s", sub))
 
 	_, err = db.Exec(
 		"INSERT INTO `todo-schema`.user (id) values (?)",
@@ -30,8 +35,13 @@ func AddDbEntry(sub string) error {
 	)
 
 	if err != nil {
+		fmt.Println(fmt.Sprintf("An error occured: %s", err.Error()))
 		return err
 	}
+
+    fmt.Println("Success")
+
+    defer db.Close()
 
 	return nil
 }
