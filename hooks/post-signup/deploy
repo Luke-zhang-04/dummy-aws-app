@@ -1,6 +1,11 @@
 #!/bin/bash
 
-./dockerBuild
+result="$(./dockerBuild)"
+
+if [[ ! "$result" ]]; then
+    echo "An error occured"
+    exit 1
+fi
 
 sudo cp ./build/main ./main
 
