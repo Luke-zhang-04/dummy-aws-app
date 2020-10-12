@@ -131,3 +131,4 @@ server/app
 
 hooks/post-signup/main
 *.zip
+credentials
