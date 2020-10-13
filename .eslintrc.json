@@ -323,6 +323,7 @@
                 "project": ["./client/tsconfig.json", "./server/tsconfig.json"]
             },
             "rules": {
+                "camelcase": "off",
                 "@typescript-eslint/array-type": "error",
 
                 "brace-style": "off",

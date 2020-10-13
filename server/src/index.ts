@@ -7,6 +7,7 @@ import auth from "./auth"
 import bodyParser from "body-parser"
 import cookieParser from "cookie-parser"
 import cors from "cors"
+import db from "./db"
 import express from "express"
 import serverless from "serverless-http"
 
@@ -25,6 +26,7 @@ app.use(bodyParser.json())
 
 app.use(cookieParser())
 
+
 app.post("/auth/register", auth.register)
 
 app.post("/auth/login", auth.login)
@@ -32,6 +34,10 @@ app.post("/auth/login", auth.login)
 app.post("/auth/logout", auth.logout)
 
 app.get("/auth/tokens", auth.getTokensFromRefreshToken)
+
+
+app.post("/todo/addItem", db.addTodoItem)
+
 
 app.get("/", (_, response) => response.send({
     app: "Todo app",

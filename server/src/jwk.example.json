@@ -1,0 +1,19 @@
+{
+    "keys": [
+        {
+            "alg":"RS256",
+            "e":"AQAB",
+            "kid":"",
+            "kty":"RSA",
+            "n":"",
+            "use":"sig"
+        }, {
+            "alg":"RS256",
+            "e":"AQAB",
+            "kid":"",
+            "kty":"RSA",
+            "n":"",
+            "use":"sig"
+        }
+    ]
+}
