@@ -70,8 +70,7 @@ const isValidJWTHeader = (obj: {[key: string]: any}): obj is JWTHeader => (
 
 export const jwtIsValid = async (
     jwt: string,
-    iss: string,
-    tokenUse: string,
+    user: IdTokenPayload,
 ): Promise<boolean> => {
     const header = JSON.parse(base64url.decode(jwt.split(".")[0])) as {[key: string]: unknown}
 
@@ -82,10 +81,14 @@ export const jwtIsValid = async (
     }
 
     const isvalidKid = await kidIsValid(header.kid),
-        isvalidTokenUse = tokenUse === "id",
-        isvalidIss = iss.split("/")[3] === process.env.UserPoolId
+        isvalidTokenUse = user.token_use === "id",
+        isvalidIss = user.iss.split("/")[3] === process.env.UserPoolId,
+        isvalidAud = user.aud === process.env.ClientId
 
-    return isvalidKid && isvalidTokenUse && isvalidIss
+    return isvalidKid &&
+        isvalidTokenUse &&
+        isvalidIss &&
+        isvalidAud
 }
 
 export default {
