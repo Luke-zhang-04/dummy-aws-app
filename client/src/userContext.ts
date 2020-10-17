@@ -9,20 +9,13 @@
  * but THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS.
  */
-import "../style.scss"
-import Button from "@material-ui/core/Button"
+
 import React from "react"
-import UserContext from "../../userContext"
+import type {App} from "."
 
-const logoutButton = () => <UserContext.Consumer>
-    {({setUser}) => (
-        <Button
-            onClick={() => setUser(undefined)}
-            variant="contained"
-            color="primary"
-            className="logoutbtn"
-        >Logout</Button>
-    )}
-</UserContext.Consumer>
+export const UserContext = React.createContext<App.Context>({
+    currentUser: undefined,
+    setUser: () => undefined,
+})
 
-export default React.memo(logoutButton)
+export default UserContext

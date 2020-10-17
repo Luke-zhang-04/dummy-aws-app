@@ -10,15 +10,17 @@
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS.
  */
 
+import "./index.scss"
 import * as serviceWorker from "./serviceWorker"
 import {CognitoUser, isCognitoUser} from "./cognito-utils"
 import Application from "./app"
 import Auth from "./auth"
 import React from "react"
 import ReactDOM from "react-dom"
+import UserContext from "./userContext"
 import {url} from "./globals"
 
-declare namespace App {
+export declare namespace App {
     export interface Props {}
 
     export interface State {
@@ -31,11 +33,6 @@ declare namespace App {
         setUser: (user: Context["currentUser"])=> void,
     }
 }
-
-export const UserContext = React.createContext<App.Context>({
-    currentUser: undefined,
-    setUser: () => undefined,
-})
 
 class App extends React.Component<App.Props, App.State> {
 

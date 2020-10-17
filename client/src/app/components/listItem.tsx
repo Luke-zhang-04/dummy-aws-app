@@ -10,14 +10,39 @@
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS.
  */
 
+import {
+    Checkbox,
+    IconButton,
+    ListItem,
+    ListItemIcon,
+    ListItemSecondaryAction,
+    ListItemText,
+} from "@material-ui/core"
+import DeleteIcon from"@material-ui/icons/Delete";
 import React from "react"
 
 interface Props {
     title: string,
+    desc: string,
+    complete?: boolean,
 }
 
-export const ListItem = ({title}: Props): JSX.Element => <li>
-    {title}
-</li>
+export const TodoItem = (
+    {title, desc, complete}: Props,
+): JSX.Element => <ListItem button className="listitem">
+    <ListItemIcon>
+        <Checkbox
+            edge="start"
+            checked={complete}
+            tabIndex={-1}
+        />
+    </ListItemIcon>
+    <ListItemText primary={title} secondary={desc}/>
+    <ListItemSecondaryAction>
+        <IconButton edge="end">
+            <DeleteIcon/>
+        </IconButton>
+    </ListItemSecondaryAction>
+</ListItem>
 
-export default ListItem
+export default TodoItem

@@ -14,7 +14,7 @@ import "./style.scss"
 import {Button, FormControl, Grid, TextField} from "@material-ui/core"
 import {CognitoUser, isAwsErrorObject, isCognitoUser} from "../cognito-utils"
 import React from "react"
-import {UserContext} from "../"
+import UserContext from "../userContext"
 import {url} from "../globals"
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */
