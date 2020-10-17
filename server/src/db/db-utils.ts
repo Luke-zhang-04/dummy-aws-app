@@ -1,4 +1,7 @@
 import base64url from "base64-url"
+import jwkToPem from "jwk-to-pem"
+import jwt from "jsonwebtoken"
+import {keys} from "../jwk.json"
 
 export type TodoItem = {
     title: string,
@@ -58,21 +61,43 @@ const isValidJWTHeader = (obj: {[key: string]: any}): obj is JWTHeader => (
         obj.alg === "RS256"
     ),
 
-    kidIsValid = async (kid: string): Promise<boolean> => {
-        for (const key of (await import("../jwk.json")).keys) {
+    kidIsValid = (kid: string): boolean => {
+        for (const key of keys) {
             if (key.kid === kid) {
                 return true
             }
         }
 
         return false
+    },
+
+    verifyJwt = (token: string, pem: string): Promise<{} | undefined> => (
+        new Promise((resolve, reject) => {
+            jwt.verify(token, pem, (err, result) => {
+                err === null ? resolve(result) : reject(err)
+            })
+        })
+    ),
+
+    signatureIsValid = async (token: string): Promise<boolean> => {
+        const verified: ({} | undefined)[] = []
+
+        for (const key of keys) {
+            const pem = jwkToPem(key as jwkToPem.JWK)
+
+            verified.push(verifyJwt(token, pem))
+        }
+
+        return await Promise.all(verified)
+            .then(() => true)
+            .catch(() => false)
     }
 
 export const jwtIsValid = async (
-    jwt: string,
+    token: string,
     user: IdTokenPayload,
 ): Promise<boolean> => {
-    const header = JSON.parse(base64url.decode(jwt.split(".")[0])) as {[key: string]: unknown}
+    const header = JSON.parse(base64url.decode(token.split(".")[0])) as {[key: string]: unknown}
 
     if (!isValidJWTHeader(header)) {
         console.log(header)
@@ -80,12 +105,14 @@ export const jwtIsValid = async (
         throw new Error("JWT Header is not valid")
     }
 
-    const isvalidKid = await kidIsValid(header.kid),
+    const isvalidKid = kidIsValid(header.kid),
+        isvalidSignature = await signatureIsValid(token),
         isvalidTokenUse = user.token_use === "id",
         isvalidIss = user.iss.split("/")[3] === process.env.UserPoolId,
         isvalidAud = user.aud === process.env.ClientId
 
     return isvalidKid &&
+        isvalidSignature &&
         isvalidTokenUse &&
         isvalidIss &&
         isvalidAud

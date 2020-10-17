@@ -1,5 +1,5 @@
 import type {Handler as ExpressHandler} from "express"
-import jwtDecode from "jwt-decode"
+import jwt from "jsonwebtoken"
 import sql from "../sql"
 import stats from "../stats"
 import utils from "./db-utils"
@@ -25,7 +25,7 @@ const addItem = async (
 
 export const addTodoItem: ExpressHandler = async ({body}, response) => {
     if (utils.isTodoItem(body)) {
-        const user = jwtDecode(body.idToken)
+        const user = jwt.decode(body.idToken)
 
         if (
             user !== null &&
