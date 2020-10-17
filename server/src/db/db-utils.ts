@@ -27,6 +27,24 @@ export const isTodoItem = (obj: {[key: string]: unknown}): obj is TodoItem => (
     typeof obj.idToken === "string"
 )
 
+export type TodoResponse = {
+    id: number,
+    title: string,
+    description: string,
+    completed: 1 | 0,
+    uid: string,
+}
+
+export const isTodoResponse = (
+    obj: {[key: string]: unknown},
+): obj is TodoResponse => (
+    typeof obj.id === "number" &&
+    typeof obj.title === "string" &&
+    typeof obj.description === "string" &&
+    typeof obj.uid === "string" &&
+    (obj.completed === 0 || obj.completed === 1)
+)
+
 export type IdTokenPayload = {
     sub: string,
     aud: string,
@@ -83,16 +101,16 @@ const isValidJWTHeader = (obj: {[key: string]: any}): obj is JWTHeader => (
         return false
     },
 
-    verifyJwt = (token: string, pem: string): Promise<{} | undefined> => (
-        new Promise((resolve, reject) => {
+    verifyJwt = (token: string, pem: string): Promise<false | {} | undefined> => (
+        new Promise((resolve) => {
             jwt.verify(token, pem, (err, result) => {
-                err === null ? resolve(result) : reject(err)
+                err === null ? resolve(result) : resolve(false)
             })
         })
     ),
 
     signatureIsValid = async (token: string): Promise<boolean> => {
-        const verified: ({} | undefined)[] = []
+        const verified: (false | {} | undefined)[] = []
 
         for (const key of keys) {
             const pem = jwkToPem(key as jwkToPem.JWK)
@@ -101,8 +119,7 @@ const isValidJWTHeader = (obj: {[key: string]: any}): obj is JWTHeader => (
         }
 
         return await Promise.all(verified)
-            .then(() => true)
-            .catch(() => false)
+            .then((result) => result[0] === false || result[1] === false)
     }
 
 export const jwtIsValid = async (
@@ -112,8 +129,6 @@ export const jwtIsValid = async (
     const header = JSON.parse(base64url.decode(token.split(".")[0])) as {[key: string]: unknown}
 
     if (!isValidJWTHeader(header)) {
-        console.log(header)
-
         throw new Error("JWT Header is not valid")
     }
 

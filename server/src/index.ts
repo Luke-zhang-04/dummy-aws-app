@@ -50,6 +50,8 @@ app.get("/auth/tokens", auth.getTokensFromRefreshToken)
 
 app.post("/todo/addItem", db.addTodoItem)
 
+app.get("/todo/getItems", db.getTodoItems)
+
 
 app.get("/", (_, response) => response.send({
     app: "Todo app",

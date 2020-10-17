@@ -27,7 +27,7 @@ export const connect = (
     ))
 ))
 
-interface QueryResult {
+export type QueryResult = {
     fieldCount: number,
     affectedRows: number,
     insertId: number,
@@ -38,11 +38,24 @@ interface QueryResult {
     changedRows: number,
 }
 
+export const isQueryResult = (
+    obj: {[key: string]: unknown}
+): obj is QueryResult => (
+    obj.fieldCount === "number" &&
+    obj.affectedRows === "number" &&
+    obj.insertId === "number" &&
+    obj.serverStatus === "number" &&
+    obj.warningCount === "number" &&
+    obj.message === "string" &&
+    obj.protocol41 === "boolean" &&
+    obj.changedRows === "number"
+)
+
 export const query = (
     con: mysql.Connection,
     queryString: string,
     values: (string | number | null)[],
-): Promise<QueryResult> => new Promise((resolve, reject) => (
+): Promise<unknown> => new Promise((resolve, reject) => (
     con.query(queryString, values, (err, result) => (
         err ? reject(err) : resolve(result)
     ))
