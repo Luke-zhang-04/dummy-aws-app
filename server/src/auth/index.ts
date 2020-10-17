@@ -2,7 +2,7 @@ import auth, {TokenRequest} from "./auth-utils"
 import {CognitoUserSession} from "amazon-cognito-identity-js"
 import type {Handler as ExpressHandler} from "express"
 import fetch from "node-fetch"
-import jwtDecode from "jwt-decode"
+import jwt from "jsonwebtoken"
 import qs from "qs"
 import stats from "../stats"
 
@@ -146,7 +146,7 @@ export const getTokensFromRefreshToken: ExpressHandler = async (
                 })
             }
 
-            const info: IdTokenPayload = jwtDecode(result.id_token),
+            const info = jwt.decode(result.id_token) as IdTokenPayload,
                 userInfo: UserInfo = {
                     idToken: result.id_token,
                     sub: info.sub,
