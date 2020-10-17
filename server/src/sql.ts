@@ -61,8 +61,17 @@ export const query = (
     ))
 ))
 
+export const end = (
+    con: mysql.Connection,
+): Promise<void> => new Promise((resolve, reject) => (
+    con.end((err) => (
+        err === undefined ? resolve() : reject(err)
+    ))
+))
+
 export default {
     connection,
     connect,
     query,
+    end,
 }

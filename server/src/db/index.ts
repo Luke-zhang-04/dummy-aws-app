@@ -22,8 +22,6 @@ const addItem = async (
     desc: string,
     sub: string,
 ): Promise<void> => {
-    await sql.connect(sql.connection)
-
     await sql.query(
         sql.connection,
         "INSERT INTO `todo-schema`.item (title, description, uid) VALUES (?, ?, ?);",
@@ -79,8 +77,6 @@ export const addTodoItem: ExpressHandler = async ({body}, response) => {
 }
 
 const getItems = async (sub: string): Promise<utils.TodoResponse[]> => {
-    await sql.connect(sql.connection)
-
     const result = await sql.query(
         sql.connection,
         "SELECT * FROM `todo-schema`.item WHERE uid = ?;",
@@ -101,6 +97,7 @@ const getItems = async (sub: string): Promise<utils.TodoResponse[]> => {
 export const getTodoItems: ExpressHandler = async ({query}, response) => {
     if (typeof query.idToken === "string") {
         const user = jwt.decode(query.idToken)
+
         if (
             user !== null &&
             typeof user === "object" &&
@@ -128,7 +125,7 @@ export const getTodoItems: ExpressHandler = async ({query}, response) => {
                 })
             } catch (err: unknown) {
                 return response.status(stats.internalError).json({
-                    message: "An unknown error occured",
+                    message: `An unknown error occured ${err}`,
                 })
             }
         }
