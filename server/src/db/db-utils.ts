@@ -27,24 +27,6 @@ export const isTodoItem = (obj: {[key: string]: unknown}): obj is TodoItem => (
     typeof obj.idToken === "string"
 )
 
-export type TodoResponse = {
-    id: number,
-    title: string,
-    description: string,
-    completed: 1 | 0,
-    uid: string,
-}
-
-export const isTodoResponse = (
-    obj: {[key: string]: unknown},
-): obj is TodoResponse => (
-    typeof obj.id === "number" &&
-    typeof obj.title === "string" &&
-    typeof obj.description === "string" &&
-    typeof obj.uid === "string" &&
-    (obj.completed === 0 || obj.completed === 1)
-)
-
 export type IdTokenPayload = {
     sub: string,
     aud: string,
@@ -146,7 +128,6 @@ export const jwtIsValid = async (
 }
 
 export default {
-    isTodoItem,
     isIdTokenPayload,
     jwtIsValid,
 }
