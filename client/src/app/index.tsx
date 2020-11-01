@@ -35,7 +35,7 @@ declare namespace App {
             description: string,
             completed: 1 | 0,
             uid: string,
-        }[]
+        }[],
     }
 
 }

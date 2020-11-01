@@ -16,9 +16,9 @@ import {
     ListItem,
     ListItemIcon,
     ListItemSecondaryAction,
-    ListItemText,
+    ListItemText
 } from "@material-ui/core"
-import DeleteIcon from"@material-ui/icons/Delete";
+import DeleteIcon from "@material-ui/icons/Delete"
 import React from "react"
 
 interface Props {

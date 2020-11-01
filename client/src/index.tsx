@@ -13,6 +13,7 @@
 import "./index.scss"
 import * as serviceWorker from "./serviceWorker"
 import {CognitoUser, isCognitoUser} from "./cognito-utils"
+import {CssBaseline, ThemeProvider, createMuiTheme} from "@material-ui/core"
 import Application from "./app"
 import Auth from "./auth"
 import React from "react"
@@ -73,9 +74,7 @@ class App extends React.Component<App.Props, App.State> {
     }
 
     public setUser = async (user?: CognitoUser): Promise<void> => {
-        console.log(user)
         if (user === undefined || user === null) {
-            console.log("fetching")
             await fetch(
                 `${url}/auth/logout`,
                 {
@@ -87,11 +86,7 @@ class App extends React.Component<App.Props, App.State> {
                 },
             )
 
-            console.log(localStorage, user, "BEFORE")
-
             localStorage.setItem("loggedin", "false")
-
-            console.log(localStorage, user, "AFTER")
         } else {
             localStorage.setItem("loggedin", "true")
         }
@@ -119,9 +114,25 @@ class App extends React.Component<App.Props, App.State> {
 
 }
 
+const theme = createMuiTheme({
+    palette: {
+        background: {
+            default: "#3737373",
+        },
+        type: "dark",
+        text: {
+            primary: "#f4f4f4",
+            secondary: "#aaa",
+        },
+    },
+})
+
 ReactDOM.render(
     <React.StrictMode>
-        <App/>
+        <ThemeProvider theme={theme}>
+            <CssBaseline/>
+            <App/>
+        </ThemeProvider>
     </React.StrictMode>,
     document.getElementById("root"),
 )

@@ -41,7 +41,7 @@ export const isCognitoUser = (
 ): obj is CognitoUser => (
     typeof obj.idToken === "string" &&
     typeof obj.sub === "string" &&
-    typeof obj.emailVerified ==="boolean" &&
+    typeof obj.emailVerified === "boolean" &&
     typeof obj.cognitoUsername === "string" &&
     typeof obj.username === "string" &&
     typeof obj.email === "string" &&
