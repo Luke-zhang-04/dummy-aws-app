@@ -2,6 +2,8 @@
 
 A simple full stack app
 
+The app currently allows for reading and writing to the database.
+
 ## Client
 A simple ReactJS application using Material UI written in TypeScript
 
