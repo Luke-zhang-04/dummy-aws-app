@@ -184,8 +184,6 @@ export const getTokensFromRefreshToken: ExpressHandler = async (
 }
 
 export const logout: ExpressHandler = (_, response) => {
-    console.log("REMOVING")
-
     return response
         .cookie("refreshToken", "", {
             httpOnly: true,

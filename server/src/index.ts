@@ -15,11 +15,11 @@ import dotenv from "dotenv"
 dotenv.config()
 
 /* eslint-disable sort-imports */
+import * as db from "./db"
 import auth from "./auth"
 import bodyParser from "body-parser"
 import cookieParser from "cookie-parser"
 import cors from "cors"
-import db from "./db"
 import express from "express"
 import serverless from "serverless-http"
 
@@ -51,6 +51,10 @@ app.get("/auth/tokens", auth.getTokensFromRefreshToken)
 app.post("/todo/addItem", db.addTodoItem)
 
 app.get("/todo/getItems", db.getTodoItems)
+
+app.post("/todo/removeItem")
+
+app.post("todo/changeItemStaus")
 
 
 app.get("/", (_, response) => response.send({

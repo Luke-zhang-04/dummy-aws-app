@@ -39,7 +39,7 @@ export type QueryResult = {
 }
 
 export const isQueryResult = (
-    obj: {[key: string]: unknown}
+    obj: {[key: string]: unknown},
 ): obj is QueryResult => (
     obj.fieldCount === "number" &&
     obj.affectedRows === "number" &&
